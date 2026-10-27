@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { firstValueFrom, Observable } from "rxjs";
+import { Persona } from "../models/Persona";
 
 @Injectable()
 export class ServicePersonas {
@@ -11,7 +12,22 @@ export class ServicePersonas {
     // Devolver la petición o devolver una proesa
     // devolvemos la petición a la llamada utilizando Observable
     getPersonas(): Observable<any> {
-        let urlApi = "";
+        let urlApi = "https://servicioapipersonasmvcpgs.azurewebsites.net/api/personas";
         return this._http.get(urlApi);
+    }
+
+    getPersonasPromise(): Promise<any> {
+        let urlApi = "https://servicioapipersonasmvcpgs.azurewebsites.net/api/personas";
+        let promise = new Promise((resolve) => {
+            this._http.get(urlApi).subscribe((response) => {
+                resolve(response);
+            })
+        })
+        return promise;
+    }
+
+    async getPersonasAsync(): Promise<Persona[]> {
+        let urlApi = "https://servicioapipersonasmvcpgs.azurewebsites.net/api/personas";
+        return firstValueFrom(this._http.get<Persona[]>(urlApi));
     }
 }

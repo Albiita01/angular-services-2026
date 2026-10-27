@@ -16,12 +16,49 @@ export class PersonasApiComponent implements OnInit {
     private _service: ServicePersonas
   ) { }
 
-  ngOnInit(): void {
-    // Si devolvemos un OBservable con la petición, nos suscribimos a su promesa
-    this._service.getPersonas().subscribe((response) => {
-      console.log("Leyendo personas")
-      this.personas = response;
-      this._cdr.detectChanges();
+  // Sin el Promise<void> era para lo anterior
+  // ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+    // Si devolvemos un Observable con la petición, nos subscribimos a su promesa
+    this._service.getPersonas().subscribe({
+      next: (response) => {
+        this.personas = response;
+        this._cdr.detectChanges();
+      }, error: (error) => {
+        console.error("Error en el aPI", error);
+      }
     })
+
+    // Async/Await
+    // try {
+    //   this.personas = await this._service.getPersonasAsync();
+    //   this._cdr.detectChanges();
+    // } catch (error) {
+    //   console.log("Error en el API", error);
+    // }
+
+    // Promise
+    // this._service.getPersonasPromise().then((response) => {
+    //   this.personas = response;
+    //   this._cdr.detectChanges();
+    // }).catch((error: any) => {
+    //   console.error("Error en el Api", error);
+
+    // })
+
+    // Esto era lo anterior
+    // this._service.getPersonasPromise().then((response) => {
+    //   this.personas = response;
+    //   this._cdr.detectChanges();
+    // })
+
+    // Esto era lo anterior anterior
+    // Si devolvemos un OBservable con la petición, nos suscribimos a su promesa
+    // this._service.getPersonas().subscribe((response) => {
+    //   console.log("Leyendo personas")
+    //   this.personas = response;
+    //   this._cdr.detectChanges();
+    // })
   }
 }
