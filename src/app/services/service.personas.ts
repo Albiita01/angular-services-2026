@@ -2,6 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { firstValueFrom, Observable } from "rxjs";
 import { Persona } from "../models/Persona";
+import { Global } from "../Global";
+import { environment } from "../../environments/environment.development";
+
 
 @Injectable()
 export class ServicePersonas {
@@ -12,8 +15,13 @@ export class ServicePersonas {
     // Devolver la petición o devolver una proesa
     // devolvemos la petición a la llamada utilizando Observable
     getPersonas(): Observable<any> {
-        let urlApi = "https://servicioapipersonasmvcpgs.azurewebsites.net/api/personas";
+        // esto para el Environment
+        let urlApi = environment.urlApiPersonas;
         return this._http.get(urlApi);
+
+        // Esto para el Global
+        // let urlApi = Global.urlApiPersonas;
+        // return this._http.get(urlApi);
     }
 
     getPersonasPromise(): Promise<any> {

@@ -11,7 +11,9 @@ import { Comic } from '../../models/Comic.js'
 export class ComicsComponent {
   public arrayComics!: Array<Comic>;
 
-  constructor(private _cdr: ChangeDetectorRef, private _service: ServiceComics) { }
+  constructor(private _cdr: ChangeDetectorRef, private _service: ServiceComics) {
+    this.arrayComics = []
+  }
 
 
   async ngOnInit(): Promise<void> {
